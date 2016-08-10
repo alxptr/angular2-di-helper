@@ -18,6 +18,6 @@ export class DecoratorsHelper {
 
     public findDecorator(type:Type, annotation:Type):boolean {
         return this.reflector.annotations(type)
-            .find((annotation:Type) => annotation instanceof annotation);
+            .find((type:Type) => type instanceof annotation);
     }
 }
