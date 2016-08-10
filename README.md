@@ -48,7 +48,7 @@ Create the Action2 every time as a new instance via the factory.
 
 ```typescript
 @Injectable()
-export class Action {
+export class Action2 {
 
     constructor(...) {
     }
