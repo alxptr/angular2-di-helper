@@ -28,12 +28,12 @@ export function main() {
 
 **Action.ts**
 
-Create the Action as singleton instance via the factory.
+Create the Action as **a singleton instance** via the factory.
 
 ```typescript
 import {Singleton} from 'angular2-di-helper';
 
-@Singleton()
+**@Singleton()**
 @Injectable()
 export class Action {
 
@@ -44,7 +44,7 @@ export class Action {
 
 **Action2.ts**
 
-Create the Action2 every time as a new instance via the factory.
+Create the Action2 object **every time as a new instance** via the factory.
 
 ```typescript
 @Injectable()
