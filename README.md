@@ -28,12 +28,12 @@ export function main() {
 
 **Action.ts**
 
-Create the Action as **a singleton instance** via the factory.
+Create the Action as **a singleton instance** via the factory using **@Singleton** [decorator](https://www.typescriptlang.org/docs/handbook/decorators.html).
 
 ```typescript
 import {Singleton} from 'angular2-di-helper';
 
-**@Singleton()**
+@Singleton()
 @Injectable()
 export class Action {
 
