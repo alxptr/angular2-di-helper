@@ -1,6 +1,6 @@
 # angular2-di-helper
 
-An implementation of the helper for DI at Angular2.
+An implementation of the dependency injection helpers  at Angular2.
 
 ## Installation
 
@@ -61,11 +61,11 @@ export class Action2 {
 @Injectable()
 export class ActionFactory {
 
-    constructor(@Inject(DependencyInjectionHelper) protected dependencyInjectionHelper:DependencyInjectionHelper) {
+    constructor(@Inject(ServiceLocator) protected serviceLocator:IServiceLocator) {
     }
 
     public createAction<TAction>(ctor:{new (...Type): TAction}):TAction {
-        return this.dependencyInjectionHelper.getInstance<TAction>(ctor);
+        return this.serviceLocator.getService<TAction>(ctor);
     }
 }
 ```
@@ -73,7 +73,7 @@ export class ActionFactory {
 ## Publish
 
 ```sh
-npm deploy
+npm run deploy
 ```
 
 ## License
