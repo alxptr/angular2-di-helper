@@ -11,6 +11,7 @@ import {SingletonMetadata} from './decorators';
 
 export interface IServiceLocator {
     getService<TService>(ctor:{new (...Type):TService}):TService;
+    createService<TService>(ctor:{new (...Type):TService}):TService;
 }
 
 @Injectable()
@@ -26,6 +27,13 @@ export class ServiceLocator implements IServiceLocator {
     public getService<TService>(ctor:{new (...Type):TService}):TService {
         return this.decoratorsHelper.hasDecorator(ctor, SingletonMetadata)
             ? this.injector.get(ctor)                                               // Get a current singleton instance
-            : ReflectiveInjector.resolveAndCreate([ctor], this.injector).get(ctor); // Create a new instance every time using existing dependencies.
+            : this.createService(ctor);
+    }
+
+    /**
+     * @override
+     */
+    public createService<TService>(ctor:{new (...Type):TService}):TService {
+        return ReflectiveInjector.resolveAndCreate([ctor], this.injector).get(ctor); // Create a new instance every time using existing dependencies.
     }
 }
