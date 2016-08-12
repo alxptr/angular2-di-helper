@@ -27,7 +27,7 @@ export class ServiceLocator implements IServiceLocator {
     public getService<TService>(ctor:{new (...Type):TService}):TService {
         return this.decoratorsHelper.hasDecorator(ctor, SingletonMetadata)
             ? this.injector.get(ctor)                                               // Get a current singleton instance
-            : this.createService(ctor);
+            : this.createService<TService>(ctor);
     }
 
     /**
