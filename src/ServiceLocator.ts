@@ -1,13 +1,30 @@
 import {
     Inject,
     Injector,
-    Injectable
+    Injectable,
+    Type
 } from '@angular/core';
 
 import {ReflectiveInjector} from '@angular/core/src/di';
+import {Reflector} from '@angular/core/src/reflection/reflection';
 
-import {DecoratorsHelper} from './DecoratorsHelper';
 import {SingletonMetadata} from './decorators';
+
+@Injectable()
+export class DecoratorsHelper {
+
+    constructor(@Inject(Reflector) private reflector:Reflector) {
+    }
+
+    public hasDecorator(type:Type, annotation:Type):boolean {
+        return !!this.findDecorator(type, annotation);
+    }
+
+    public findDecorator(type:Type, annotation:Type):boolean {
+        return this.reflector.annotations(type)
+            .find((type:Type) => type instanceof annotation);
+    }
+}
 
 export interface IServiceLocator {
     getService<TService>(ctor:{new (...Type):TService}):TService;
@@ -17,7 +34,7 @@ export interface IServiceLocator {
 @Injectable()
 export class ServiceLocator implements IServiceLocator {
 
-    constructor(@Inject(ReflectiveInjector) protected injector:Injector,
+    constructor(@Inject(Injector) protected injector:Injector,
                 @Inject(DecoratorsHelper) protected decoratorsHelper:DecoratorsHelper) {
     }
 

@@ -1,6 +1,4 @@
-import {DecoratorsHelper} from './DecoratorsHelper';
-import {ServiceLocator} from './ServiceLocator';
-export {ServiceLocator, IServiceLocator} from './ServiceLocator';
-export {DecoratorsHelper} from './DecoratorsHelper';
+import {ServiceLocator, DecoratorsHelper} from './ServiceLocator';
+export {ServiceLocator, IServiceLocator, DecoratorsHelper} from './ServiceLocator';
 export {Singleton} from './decorators';
 export const DI_PROVIDERS:any[] = [ServiceLocator, DecoratorsHelper];
