@@ -17,7 +17,7 @@ export interface IServiceLocator {
 @Injectable()
 export class ServiceLocator implements IServiceLocator {
 
-    constructor(@Inject(Injector) protected injector:Injector,
+    constructor(@Inject(ReflectiveInjector) protected injector:Injector,
                 @Inject(DecoratorsHelper) protected decoratorsHelper:DecoratorsHelper) {
     }
 
