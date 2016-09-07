@@ -16,13 +16,13 @@ export class DecoratorsHelper {
     constructor(@Inject(Reflector) private reflector:Reflector) {
     }
 
-    public hasDecorator(type:Type, annotation:Type):boolean {
+    public hasDecorator(type:Type<any>, annotation:Type<any>):boolean {
         return !!this.findDecorator(type, annotation);
     }
 
-    public findDecorator(type:Type, annotation:Type):boolean {
+    public findDecorator(type:Type<any>, annotation:Type<any>):boolean {
         return this.reflector.annotations(type)
-            .find((type:Type) => type instanceof annotation);
+            .find((type:Type<any>) => type instanceof annotation);
     }
 }
 
@@ -41,7 +41,7 @@ export class ServiceLocator implements IServiceLocator {
     /**
      * @override
      */
-    public getService<TService>(ctor:{new (...Type):TService}):TService {
+    public getService<TService>(ctor:{new (...type:Type<any>[]):TService}):TService {
         return this.decoratorsHelper.hasDecorator(ctor, SingletonMetadata)
             ? this.injector.get(ctor)                                               // Get a current singleton instance
             : this.createService<TService>(ctor);
