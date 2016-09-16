@@ -13,16 +13,20 @@ npm install angular2-di-helper --save
 
 **main.ts**
 
-We should integrate the DI providers at first.
+We should integrate the DI module at first.
 
 ```typescript
-import {DI_PROVIDERS} from 'angular2-di-helper';
+import {DIModule} from 'angular2-di-helper';
 
-export function main() {
-    return bootstrap(App, [
-        DI_PROVIDERS,
+@NgModule({
+    bootstrap: [ApplicationComponent],
+    imports: [
+        DIModule,
         ...
-    ]);
+    ],
+    ...
+})
+export class ApplicationModule {
 }
 ```
 
@@ -64,7 +68,7 @@ export class ActionFactory {
     constructor(@Inject(ServiceLocator) protected serviceLocator:IServiceLocator) {
     }
 
-    public createAction<TAction>(ctor:{new (...Type): TAction}):TAction {
+    public createAction<TAction>(ctor:{new (...type:Type<any>[]):TAction}):TAction {
         return this.serviceLocator.getService<TAction>(ctor);
     }
 }

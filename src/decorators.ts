@@ -1,8 +1,3 @@
-import {makeDecorator} from '@angular/core/src/util/decorators';
+import {__core_private__ as core} from '@angular/core';
 
-export class SingletonMetadata {
-    constructor() {
-    }
-}
-
-export const Singleton = makeDecorator(SingletonMetadata);
+export const Singleton:(...args:any[]) => (cls:any) => any = core.makeDecorator('Singleton', {});
