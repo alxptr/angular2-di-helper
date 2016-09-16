@@ -10,7 +10,7 @@ import {__core_private__ as core} from '@angular/core';
 
 import {Singleton} from './decorators';
 
-interface IReflector {
+export interface IReflector {
     annotations(type:Type<any>):Array<Type<any>>;
 }
 
