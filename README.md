@@ -1,6 +1,6 @@
 # angular2-di-helper
 
-An implementation of the dependency injection helpers  at Angular2.
+An implementation of the dependency injection helpers at Angular2 (2.0.0 compatible).
 
 ## Installation
 

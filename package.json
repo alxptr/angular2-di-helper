@@ -32,6 +32,7 @@
   "bugs": {
     "url": "https://github.com/apoterenko/angular2-di-helper/issues"
   },
+  "module": "index.js",
   "engines": {
     "node": ">= 4.2.1",
     "npm": ">= 3"
