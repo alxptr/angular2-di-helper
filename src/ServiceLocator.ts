@@ -2,7 +2,9 @@ import {
     Inject,
     Injector,
     Injectable,
-    Type
+    Type,
+    Provider, 
+    ValueProvider
 } from '@angular/core';
 
 import {ReflectiveInjector} from '@angular/core';
@@ -38,8 +40,17 @@ export interface IServiceLocator {
 @Injectable()
 export class ServiceLocator implements IServiceLocator {
 
+    private providers:Provider[];
+
     constructor(@Inject(Injector) protected injector:Injector,
                 @Inject(DecoratorsHelper) protected decoratorsHelper:DecoratorsHelper) {
+    }
+
+    /**
+     * @override
+     */
+    public configure(providers:Provider[]) {
+        this.providers = providers;
     }
 
     /**
@@ -55,6 +66,19 @@ export class ServiceLocator implements IServiceLocator {
      * @override
      */
     public createService<TService>(ctor:{new (...type:Type<any>[]):TService}):TService {
-        return ReflectiveInjector.resolveAndCreate([ctor], this.injector).get(ctor); // Create a new instance every time using existing dependencies.
+        let ctorProviders:Provider[] = [];
+
+        if (Array.isArray(this.providers)) {
+            ctorProviders = ctorProviders.concat(this.providers);
+
+            if (this.providers.find((provider:Provider)=> (provider === ctor) || (provider as ValueProvider).provide === ctor)) {
+                // User has defined custom provider for this class, therefore, we do not put input class as provider
+            } else {
+                ctorProviders.push(ctor);
+            }
+        } else {
+            ctorProviders.push(ctor);
+        }
+        return ReflectiveInjector.resolveAndCreate(ctorProviders, this.injector).get(ctor); // Create a new instance every time using existing dependencies.
     }
 }
