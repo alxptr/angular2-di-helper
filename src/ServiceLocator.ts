@@ -33,8 +33,8 @@ export class DecoratorsHelper {
 }
 
 export interface IServiceLocator {
-    getService<TService>(ctor:{new (...Type):TService}):TService;
-    createService<TService>(ctor:{new (...Type):TService}):TService;
+    getService<TService>(ctor:{new (...type:Type<any>[]):TService}):TService;
+    createService<TService>(ctor:{new (...type:Type<any>[]):TService}):TService;
     configure(providers:Provider[]);
 }
 
