@@ -11,7 +11,7 @@ npm install angular2-di-helper --save
 
 ## Use  
 
-In general, you **don't need** configure the providers at the main application module.  
+In general, you **don't need** configure the providers at the main application module. You have to configure your providers at the main application module **only if you use the Singleton annotation**.  
 
 ## Use case #1  
 
@@ -72,7 +72,7 @@ export class ActionFactory {
 
 ## Use case #2 
 
-You must configure your providers at the main application module **only if you use the Singleton annotation** or **you have a special configuration of providers**, for example:  
+You have to configure your providers at the main application module using service locator **only if you have a "special configuration" of providers**, for example:  
 
 ```typescript
 class DiClass {
