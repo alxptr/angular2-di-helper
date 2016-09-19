@@ -9,23 +9,11 @@ First you need to install the npm module:
 npm install angular2-di-helper --save
 ```
 
-## Use
+## Use  
 
-In general, you **don't need** configure the providers at the main application module. You must configure your providers at the main application module **only if you use the Singleton annotation** 
-or you have a special configuration of providers, for example:  
+In general, you **don't need** configure the providers at the main application module.  
 
-```typescript
-class DiClass {
-    constructor() {
-        console.log('DiClass is instantiated');
-    }
-}
-
-class DiClass1 extends DiClass {
-    constructor() {
-        console.log('DiClass1 is instantiated');
-    }
-}
+## Use case #1  
 
 @NgModule({
     imports: [DIModule, ...],
@@ -43,14 +31,16 @@ export class ApplicationModule {
 @Component(...)
 export class AppComponent {
     constructor(@Inject(ServiceLocator) private serviceLocator:IServiceLocator) {
-        this.serviceLocator.createService(DiClass);     // console output: "DiClass1 is instantiated"
-        this.serviceLocator.createService(DiClass);     // console output: "DiClass1 is instantiated"
+        const instance1:DiClass1 = this.serviceLocator.getService(DiClass);
+        const instance2:DiClass1 = this.serviceLocator.getService(DiClass);
+    
+        instance1.methodOfClass1();                             // Console output: "Method is called"
+        instance2.methodOfClass1();                             // Console output: "Method is called"
+        console.log(instance1 === instance2);                   // Console output: "false"
     }
 ```
 
-**main.ts**
-
-We should integrate the DI module at first.
+So, we should integrate the DI module at first.
 
 ```typescript
 import {DIModule} from 'angular2-di-helper';
@@ -67,8 +57,6 @@ export class ApplicationModule {
 }
 ```
 
-**Action.ts**
-
 Create the Action as **a singleton instance** via the factory using **@Singleton** [decorator](https://www.typescriptlang.org/docs/handbook/decorators.html).
 
 ```typescript
@@ -83,8 +71,6 @@ export class Action {
 }
 ```
 
-**Action2.ts**
-
 Create the Action2 instance **every time as a new instance** via the factory.
 
 ```typescript
@@ -95,8 +81,6 @@ export class Action2 {
     }
 }
 ```
-
-**ActionFactory.ts**
 
 ```typescript
 @Injectable()
@@ -110,6 +94,26 @@ export class ActionFactory {
     }
 }
 ```
+
+## Use case #2 
+
+You must configure your providers at the main application module **only if you use the Singleton annotation** or **you have a special configuration of providers**, for example:  
+
+```typescript
+class DiClass {
+    constructor() {
+    }
+}
+
+class DiClass1 extends DiClass {
+    constructor() {
+        super();
+    }
+
+    methodOfClass1():void {
+        console.log('Method is called');
+    }
+}
 
 ## Publish
 
