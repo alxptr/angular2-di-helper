@@ -11,7 +11,7 @@ npm install angular2-di-helper --save
 
 ## Use
 
-In general, you **don't need** configure the providers in the main application module. You must configure your providers at the main AppModule **only if you use the Singleton annotation** 
+In general, you **don't need** configure the providers at the main application module. You must configure your providers at the main application module **only if you use the Singleton annotation** 
 or you have a special configuration of providers, for example:  
 
 ```typescript
@@ -29,9 +29,9 @@ class DiClass1 extends DiClass {
 
 @NgModule({
     imports: [DIModule, ...],
-    providers: []               // Empty providers section at the main AppModule!
+    providers: []               // Empty providers section at the main application module!
 })
-export class AppModule {
+export class ApplicationModule {
     constructor(@Inject(ServiceLocator) serviceLocator:IServiceLocator) {
         serviceLocator.configure([{     // Configures only the service locator!
             provide: DiClass,
@@ -56,12 +56,11 @@ We should integrate the DI module at first.
 import {DIModule} from 'angular2-di-helper';
 
 @NgModule({
-    bootstrap: [ApplicationComponent],
     imports: [
         DIModule,
         ...
     ],
-    providers: [Action],      // Put here your Action **if you use the Singleton annotation**
+    providers: [Action],      // Put here your Action if you use the Singleton annotation
     ...
 })
 export class ApplicationModule {
@@ -103,7 +102,7 @@ export class Action2 {
 @Injectable()
 export class ActionFactory {
 
-    constructor(@Inject(ServiceLocator) protected serviceLocator:IServiceLocator) {
+    constructor(@Inject(ServiceLocator) private serviceLocator:IServiceLocator) {
     }
 
     public createAction<TAction>(ctor:{new (...type:Type<any>[]):TAction}):TAction {
