@@ -35,6 +35,7 @@ export class DecoratorsHelper {
 export interface IServiceLocator {
     getService<TService>(ctor:{new (...Type):TService}):TService;
     createService<TService>(ctor:{new (...Type):TService}):TService;
+    configure(providers:Provider[]);
 }
 
 @Injectable()
