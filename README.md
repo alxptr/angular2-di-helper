@@ -11,6 +11,43 @@ npm install angular2-di-helper --save
 
 ## Use
 
+In general, you **don't need** configure the providers in the main application module. You must configure your providers at the main AppModule **only if you use the Singleton annotation** 
+or you have a special configuration of providers, for example:  
+
+```typescript
+class DiClass {
+    constructor() {
+        console.log('DiClass is instantiated');
+    }
+}
+
+class DiClass1 extends DiClass {
+    constructor() {
+        console.log('DiClass1 is instantiated');
+    }
+}
+
+@NgModule({
+    imports: [DIModule, ...],
+    providers: []               // Empty providers section at the main AppModule!
+})
+export class AppModule {
+    constructor(@Inject(ServiceLocator) serviceLocator:IServiceLocator) {
+        serviceLocator.configure([{     // Configures only the service locator!
+            provide: DiClass,
+            useClass: DiClass1
+        }]);
+    }
+}
+
+@Component(...)
+export class AppComponent {
+    constructor(@Inject(ServiceLocator) private serviceLocator:IServiceLocator) {
+        this.serviceLocator.createService(DiClass);     // console output: "DiClass1 is instantiated"
+        this.serviceLocator.createService(DiClass);     // console output: "DiClass1 is instantiated"
+    }
+```
+
 **main.ts**
 
 We should integrate the DI module at first.
@@ -24,6 +61,7 @@ import {DIModule} from 'angular2-di-helper';
         DIModule,
         ...
     ],
+    providers: [Action],      // Put here your Action **if you use the Singleton annotation**
     ...
 })
 export class ApplicationModule {
@@ -48,7 +86,7 @@ export class Action {
 
 **Action2.ts**
 
-Create the Action2 object **every time as a new instance** via the factory.
+Create the Action2 instance **every time as a new instance** via the factory.
 
 ```typescript
 @Injectable()
