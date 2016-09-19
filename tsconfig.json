@@ -8,7 +8,14 @@
     "sourceMap": true,
     "declaration": true,
     "rootDir": "src",
-    "outDir": ""
+    "outDir": "",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "types": [
+      "node"
+    ]
   },
   "compileOnSave": false,
   "buildOnSave": false,
