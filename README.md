@@ -15,32 +15,6 @@ In general, you **don't need** configure the providers at the main application m
 
 ## Use case #1  
 
-```typescript
-@NgModule({
-    imports: [DIModule, ...],
-    providers: []               // Empty providers section at the main application module!
-})
-export class ApplicationModule {
-    constructor(@Inject(ServiceLocator) serviceLocator:IServiceLocator) {
-        serviceLocator.configure([{     // Configures only the service locator!
-            provide: DiClass,
-            useClass: DiClass1
-        }]);
-    }
-}
-
-@Component(...)
-export class AppComponent {
-    constructor(@Inject(ServiceLocator) private serviceLocator:IServiceLocator) {
-        const instance1:DiClass1 = this.serviceLocator.getService(DiClass);
-        const instance2:DiClass1 = this.serviceLocator.getService(DiClass);
-    
-        instance1.methodOfClass1();                             // Console output: "Method is called"
-        instance2.methodOfClass1();                             // Console output: "Method is called"
-        console.log(instance1 === instance2);                   // Console output: "false"
-    }
-```
-
 So, we should integrate the DI module at first.
 
 ```typescript
@@ -115,6 +89,31 @@ class DiClass1 extends DiClass {
         console.log('Method is called');
     }
 }
+
+@NgModule({
+    imports: [DIModule, ...],
+    providers: []               // Empty providers section at the main application module!
+})
+export class ApplicationModule {
+    constructor(@Inject(ServiceLocator) serviceLocator:IServiceLocator) {
+        serviceLocator.configure([{     // Configures only the service locator!
+            provide: DiClass,
+            useClass: DiClass1
+        }]);
+    }
+}
+
+@Component(...)
+export class AppComponent {
+    constructor(@Inject(ServiceLocator) private serviceLocator:IServiceLocator) {
+        const instance1:DiClass1 = this.serviceLocator.getService(DiClass);
+        const instance2:DiClass1 = this.serviceLocator.getService(DiClass);
+    
+        instance1.methodOfClass1();                             // Console output: "Method is called"
+        instance2.methodOfClass1();                             // Console output: "Method is called"
+        console.log(instance1 === instance2);                   // Console output: "false"
+    }
+```
 
 ## Publish
 
