@@ -15,6 +15,7 @@ In general, you **don't need** configure the providers at the main application m
 
 ## Use case #1  
 
+```typescript
 @NgModule({
     imports: [DIModule, ...],
     providers: []               // Empty providers section at the main application module!
